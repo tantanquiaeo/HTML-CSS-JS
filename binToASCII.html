@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyrus Lab1 Finals</title>
+</head>
+<body>
+  <html>
+	<body>
+		<main>
+      <center>
+    
+        
+      <!-- Binary to Ascii -->
+      <div id="border">
+  				<h1>BINARY TO ASCII CONVERTER</h1>
+  				<input onkeypress="return isValid(event)" type="text" class="input" id="binAscii" placeholder="Enter a binary number"></input>
+          <br>
+          <div class="popup">       
+            <button type="submit" id="buttonHover" onClick="convertToASCII()">CALCULATE</button>
+            <span class="popuptext" id="buttonHover">Binary to Ascii Character</span>
+          </div>      
+          <span id="resultBinAscii"></span>
+          <button type="submit" id="reset" style="display: none;" onClick="resetpage()">Reset</button>
+          <footer>
+            <p class="text-center"> &copy; by Cyrus Tristan Quia-eo</p>
+          </footer>
+      </div>   
+    </main>
+  </body>  
+
+  <script type="text/javascript">
+    /**
+    * ASSIGNING VARIABLE
+    */
+    var input_id = "binAscii";
+    var answer_id = "resultBinAscii";
+    var reset = "reset";
+  
+   /**
+    * CONVERTING BINARY TO ASCII
+    */
+  
+    function convertToASCII() {
+    
+      var bin_text = document.getElementById(input_id);
+      var answer = document.getElementById(answer_id);
+    
+      if (!answer) {
+        alert("Error: No element with id \""+answer_id+"\".");
+        return;
+      }
+      if (bin_text)
+        var text = bin_text.value;
+      else {
+        error("No element with id \""+input_id+"\".");
+        return;
+      }
+      var divisible = text.length % 8;
+      var nonBinary = /[^0|1]/.test(text);
+      if (text.length > 0 && divisible == 0 && !nonBinary) {
+        var regex = /[0|1]{8}/g;
+        var str = text.match(regex);
+        var code = 0;
+        var placeVal, exp, digit;
+        var ascii = '';
+        while (str.length > 0) {
+          code = 0;
+          for (var i=0; i<str[0].length; i++) {
+            placeVal = 7-i;
+            exp = Math.pow(2, i);
+            digit = str[0].charAt(placeVal);
+            code += exp*digit;
+          }
+          str.shift();
+          ascii += String.fromCharCode(code);
+        }
+        
+        answer.innerHTML = "<p class=\"binary\">ASCII: " + ascii + "</p>";
+        document.getElementById(answer_id).style.color = "black";  
+        document.getElementById(reset).style.display = "block";
+        document.getElementById(answer_id).style.display = "block";
+      }
+      else {
+        error("INVALID BINARY"); 
+        return;
+      }
+    
+      function error(errText) {
+        answer.innerHTML = "<span class=\"error\">Error: " + errText + "</span>";
+         document.getElementById(reset).style.display = "block";
+         document.getElementById(answer_id).style.color = "red"; 
+         
+      
+      }
+    }
+  
+  /**
+    * RESET PAGE/RESET ALL
+    */
+    function resetpage(){
+      window.location.reload();
+  } 
+  
+  /**
+    * INPUT VALIDATION (ONLY ACCEPT 1'S AND 0'S)
+    */
+
+  function isValid(evt){
+    
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode == 48 || charCode == 49){ 
+    return true;
+    }
+    else{
+       
+      errornotif();
+      return false;
+          
+    }
+  }
+
+  /**
+    * FUNCTION FOR ERROR MESSAGE AND SOUND
+    */
+  
+  function errornotif() {
+  var error = ("You can only Enter 1's and 0's");
+  document.getElementById(answer_id).style.display = "block";
+  document.getElementById(answer_id).innerHTML = error;
+  document.getElementById(answer_id).style.color = "red";     
+  
+  }
+    </script>
+    
+  <style>
+
+      /* STYLES */
+    body {
+  
+  line-height: 50px;
+  background-color: burlywood;
+  color: #ffffff;
+  font-weight: 300;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Roboto Mono', monospace;
+}
+
+input {
+  height:30px;
+  background-color: rgba(255,255,255,0.4);
+  border:none;
+  text-align: center;
+}
+.input {
+  width:70%;
+}
+.rgbInput {
+  width: 15%;
+  font-style:bold;
+  font-size:16px;
+}
+input::placeholder {
+  text-align: center;
+  color:rgba(0 ,0, 0, 1);
+  font-family: 'Roboto Mono', monospace;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+select {
+  background-color: rgba(255,255,255,0.1);
+  border:none;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 16px;
+  color: white;
+}
+
+option {
+  background-color: rgba(0,0,0,0.8);
+  border:none;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 16px;
+  color: white;
+}
+
+#border{
+ 
+  border-color: black;
+  border-style: solid;
+  padding:10px;
+  width:100%;
+  margin-top: 40%;
+}
+h2 {
+  font-size:20px;
+  padding:0;
+  margin:0;
+}
+table, tr, th {
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-collapse: separate;
+    border-spacing: 1px;
+    border-color: black;
+    font-size: 20px;
+}
+button {
+  border-radius:8px;
+	border:none;
+  font-size: 15px;
+  color:rgba(255,255,255,0.6);
+  background-color: rgba(0 ,0, 0, 0.6);
+  margin: 7px;
+  padding:7px;
+  font-family: 'Roboto Mono', monospace;
+}
+button:hover {
+  color:white;
+}
+h1 {
+  font-weight: 200;
+  font-style: 26px;
+  margin: 10px;
+}
+
+footer {
+  position: relative;
+  float:right;
+  right:0;
+  bottom:0;
+}
+
+.popup {
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+/* The actual popup */
+
+.popup .popuptext {
+  width:200px;
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 7px 7px;
+  position: absolute;
+  z-index: 1;
+  left: 365px;
+  top:10%;
+}
+
+/* Popup arrow */
+
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 40%;
+  right: 100%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent rgba(0, 0, 0, 0.4) transparent transparent;
+}
+ #resultBinAscii{
+   display: block;
+  background-color: rgba(255,255,255,0.6);
+  color: black;
+  margin: 10px;
+  padding: auto;
+ }
+
+
+  </style>
+</html>
+
+
+</body>
+</html>
